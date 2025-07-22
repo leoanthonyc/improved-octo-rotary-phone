@@ -7,9 +7,20 @@ You are tasked with building a command-line application using Ruby. Given a JSON
 
 
 ### Setup
+1. Download the repo at [link here]()
 
 ### Usage
+```bash
+# Find clients having their full name partially/fully matching the given query
+ruby sc.rb find_by_name <query>
+
+# Find clients having the same email
+ruby sc.rb duplicates_by_email
+```
 
 ### Challenges
+1. How to name the commands
 
 ### Limitations
+1. It loads the entire content into memory, which can be inefficient or impossible when the file is too large.
+2. The search command is only limited to one field, `full_name`.
