@@ -32,6 +32,21 @@ when "find_by_name"
   end
   puts "No match found" unless match_found
 when "duplicates_by_email"
+  seen = Hash.new { |h, k| h[k] = [] }
+  file_content = File.read("clients.json")
+  clients = JSON.parse(file_content)
+  clients.each do |client|
+    seen[client["email"]] << client
+  end
+  duplicates = seen.select { |_, v| v.size > 1 }
+  if duplicates.empty?
+    puts "No duplicates found"
+  else
+    duplicates.each do |email, clients|
+      puts "Duplicate email: #{email}"
+      clients.each { |c| puts "  #{c}" }
+    end
+  end
 else
   puts "Unknown command"
   puts "Try 'find_by_name' or 'duplicates_by_email'"
