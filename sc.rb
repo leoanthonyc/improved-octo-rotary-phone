@@ -9,11 +9,26 @@ unless command
     Usage:
       ruby sc.rb find_by_name <name>
       ruby sc.rb duplicates_by_email
+      ruby sc.rb find_by field=value [field2=value2 ...]
   USAGE
   puts
 end
 
 case command
+when "find_by"
+  if ARGV.empty?
+    puts "Usage: ruby sc.rb find_by field=value [field2=value2 ...]"
+    puts
+    exit
+  end
+  found = ClientList.find_by('clients.json', ARGV)
+  if found.empty?
+    puts "No match found!"
+  else
+    found.each do |client|
+      puts "Match: #{client}"
+    end
+  end
 when "find_by_name"
   query = ARGV.shift
   unless query
@@ -41,7 +56,7 @@ when "duplicates_by_email"
   end
 else
   puts "Unknown command"
-  puts "Try 'find_by_name' or 'duplicates_by_email'"
+  puts "Try 'find_by_name', 'duplicates_by_email' or 'find_by'"
 end
 
 puts

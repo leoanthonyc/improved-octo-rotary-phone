@@ -50,4 +50,40 @@ RSpec.describe ClientList do
       end
     end
   end
+
+  describe '.find_by' do
+    context 'when multiple conditions are passed' do
+      it 'returns a list of clients matching all the conditions' do
+        result = ClientList.find_by('spec/files/clients.json', ['full_name=Michael Brown', 'email=michael.brown@inbox.com'])
+        expect(result.size).to eq 1
+      end
+
+      it 'returns an empty array if at least one condition does not match a client' do
+        result = ClientList.find_by('spec/files/clients.json', ['full_name=Michael Jordan', 'email=michael.brown@inbox.com'])
+        expect(result.size).to eq 0
+      end
+    end
+
+    context 'when one condition is passed' do
+      it 'returns a list of clients matching the condition' do
+        result = ClientList.find_by('spec/files/clients.json', ['email=michael.brown@inbox.com'])
+        expect(result.size).to eq 1
+      end
+    end
+
+    context 'when an invalid condition is passed' do
+      it 'ignores the invalid condition' do
+        result = ClientList.find_by('spec/files/clients.json', ['gender=M'])
+        expect(result.size).to eq 0
+      end
+    end
+
+    context 'when file does not exist' do
+      it 'raises an error' do
+        expect do
+          ClientList.find_by('secret-clients.json', 'name=John')
+        end.to raise_error(Errno::ENOENT)
+      end
+    end
+  end
 end
