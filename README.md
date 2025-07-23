@@ -8,8 +8,8 @@ You are tasked with building a command-line application using Ruby. Given a JSON
 
 ### Setup
 ```bash
-git clone <repo>
-cd <repo>
+git clone https://github.com/leoanthonyc/improved-octo-rotary-phone.git
+cd improved-octo-rotary-phone
 bundle install
 ```
 
