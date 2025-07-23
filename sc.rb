@@ -1,4 +1,5 @@
-require "json"
+require 'json'
+require_relative './client_list'
 
 puts
 
@@ -20,25 +21,16 @@ when "find_by_name"
     puts
     exit
   end
-  regex = Regexp.new(query, Regexp::IGNORECASE)
-  file_content = File.read("clients.json")
-  data = JSON.parse(file_content)
-  match_found = false
-  data.each do |line|
-    if line["full_name"] =~ regex
-      match_found = true
-      puts "Match: #{line.inspect}"
+  found = ClientList.find_by_name('clients.json', query)
+  if found.empty?
+    puts "No match found!"
+  else
+    found.each do |client|
+      puts "Match: #{client}"
     end
   end
-  puts "No match found" unless match_found
 when "duplicates_by_email"
-  seen = Hash.new { |h, k| h[k] = [] }
-  file_content = File.read("clients.json")
-  clients = JSON.parse(file_content)
-  clients.each do |client|
-    seen[client["email"]] << client
-  end
-  duplicates = seen.select { |_, v| v.size > 1 }
+  duplicates = ClientList.duplicates_by_email("clients.json")
   if duplicates.empty?
     puts "No duplicates found"
   else
