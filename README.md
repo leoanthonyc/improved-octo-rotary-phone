@@ -7,7 +7,11 @@ You are tasked with building a command-line application using Ruby. Given a JSON
 
 
 ### Setup
-1. Download the repo at [link here]()
+```bash
+git clone <repo>
+cd <repo>
+bundle install
+```
 
 ### Usage
 ```bash
@@ -19,7 +23,7 @@ ruby sc.rb duplicates_by_email
 ```
 
 ### Challenges
-1. How to name the commands
+1. How to name the commands, class names
 
 ### Limitations
 1. It loads the entire content into memory, which can be inefficient or impossible when the file is too large.
